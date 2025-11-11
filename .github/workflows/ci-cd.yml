@@ -1,0 +1,42 @@
+name: CI/CD Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # Kích hoạt khi có code được đẩy lên nhánh main
+
+jobs:
+  # 1. JOB KIỂM TRA (CI)
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      
+      - name: Run Dummy Tests (Placeholder)
+        run: echo "Code check passed. Static file deployment doesn't require complex build."
+        
+  # 2. JOB TRIỂN KHAI (CD)
+  deploy:
+    needs: ci
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write  # Cho phép Actions ghi vào trang Pages
+      id-token: write # Cần thiết để xác thực với GitHub Pages
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+        
+      - name: Upload Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Thư mục gốc chứa các tệp (index.html, script.js, styles.css)
+          path: . 
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
