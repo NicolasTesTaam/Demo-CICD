@@ -21,8 +21,8 @@ jobs:
     needs: ci
     runs-on: ubuntu-latest
     permissions:
-      pages: write  # Cho phép Actions ghi vào trang Pages
-      id-token: write # Cần thiết để xác thực với GitHub Pages
+      pages: write  
+      id-token: write 
 
     steps:
       - name: Checkout Code
@@ -34,9 +34,12 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Thư mục gốc chứa các tệp (index.html, script.js, styles.css)
+          
           path: . 
 
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+      - name: Deployment Successful
+        if: success()
+        run: echo "Deployment to GitHub Pages was successful!"
